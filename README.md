@@ -37,9 +37,9 @@ GET
 /api/get_all_known_domains
 
 Example: /api/get_all_known_domains
-Returns: [{'ID': "123456789", 'Hostname': "www.malware.io", 'Port': "80"},
-          {'ID': "109876543", 'Hostname': "www.malware.com", 'Port': "8080"},
-          {'ID': "345783456", 'Hostname': "www.malware.co.uk", 'Port': "22"}]
+Returns: [{'ID': "123456789", 'Hostname': "malware.io", 'Port': "80"},
+          {'ID': "109876543", 'Hostname': "malware.com", 'Port': "8080"},
+          {'ID': "345783456", 'Hostname': "malware.co.uk", 'Port': "22"}]
 ```
 
 ```
@@ -47,8 +47,8 @@ GET
 /api/add_malware_domain
 
 Example: /api/add_malware_domain
-Request Body: {"hostname": "www.ransomeware.com/q?=35/image.gif", "port": "443"}
-Returns: {'ID': "123456789", 'Hostname': "www.ransomeware.com", 'Port': "443"}
+Request Body: {"hostname": "www.Ransomeware.com/q?=35/image.gif", "port": "443"}
+Returns: {'ID': "123456789", 'Hostname': "Ransomeware.com", 'Port': "443"}
 ```
 
 ```
