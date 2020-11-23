@@ -17,20 +17,61 @@ If you make any changes to the project and would like your containers to reflect
 docker-compose up --build
 ```
 
+Before calling any of the endpoints, you should look to add some known malware domains to the database beforehand to be able to perform checks.
+You can find the endpoint below to do this.
+
+### Endpoints:
+The project works by using Rest endpoints defined in Spring Boot. These can be reached by either a simple curl or using something like Postman.
+
+
+```
+GET
+/api/urlinfo/1/{hostname_port}/{original_query}
+
+Example: /urlinfo/1/www.google.com:443/https://www.google.com/flower.jpeg
+Returns: {'Domain': "Google.com", 'Malware': "false"}
+```
+
+```
+GET
+/api/get_all_known_domains
+
+Example: /api/get_all_known_domains
+Returns: [{'ID': "123456789", 'Hostname': "www.malware.io", 'Port': "80"},
+          {'ID': "109876543", 'Hostname': "www.malware.com", 'Port': "8080"},
+          {'ID': "345783456", 'Hostname': "www.malware.co.uk", 'Port': "22"}]
+```
+
+```
+GET
+/api/add_malware_domain
+
+Example: /api/add_malware_domain
+Request Body: {"hostname": "www.ransomeware.com/q?=35/image.gif", "port": "443"}
+Returns: {'ID': "123456789", 'Hostname': "www.ransomeware.com", 'Port': "443"}
+```
+
+```
+GET
+/actuator
+
+Returns: {"_links":{"self":{"href":"http://localhost:8080/actuator","templated":false},"health":{"href":"http://localhost:8080/actuator/health","templated":false},"health-path":{"href":"http://localhost:8080/actuator/health/{*path}","templated":true},"info":{"href":"http://localhost:8080/actuator/info","templated":false}}}
+```
+
+```
+GET
+/actuator/health
+
+Returns: {"status":"UP"}
+```
 
 ### Running JUnit Tests:
 The tests involve both functional unit tests and integration tests. Therefore, we need to set up a mongodb database either locally or 
-using the official MongoDB docker image from DockerHub.
-
-#### Running MongoDB Instance using Docker Container
-To run tests using a MongoDB Docker container, run the following:
-`docker run --name mongo -d mongo:latest`
-
-Make sure the value of `spring.data.mongodb.host` within the application properties file in `src\test\resources\application.properties`
-is:
- 
- `spring.data.mongodb.host=mongo`
+using the official MongoDB docker image from DockerHub. For the sake of network config simplicity I have decided to go with running the MongoDB instance locally.
 
 #### Running MongoDB Instance On Base O.S
 - Install MongoDB on your existing operating system from the official website
-- Change the value of `spring.data.mongodb.host=mongo` to `spring.data.mongodb.host=localhost`
+- Ensure the value of `spring.data.mongodb.host` is set to `spring.data.mongodb.host=localhost`
+
+To Run Tests: `./mvnw test`
+
